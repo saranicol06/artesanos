@@ -10,51 +10,29 @@ Este proyecto hace parte del curso de Diseño y Arquitectura de Software.
 
 ## 🧱Arquitectura del Sistema
 
-Backend: Spring Boot (Java)
-Security: Spring Security + Basic Auth
-Base de Datos: H2 / MySQL (según configuración)
-Testing: JUnit, Mockito, Postman/Newman, JMeter
-Front (opcional): No incluido aún
-Build Tool: Maven
+El sistema Artesanos está construido con una arquitectura en capas, organizada de la siguiente forma:
 
+Capa de Presentación (API REST)
+Expone los endpoints para gestionar artesanos y productos. Los controladores reciben solicitudes HTTP, validan datos y devuelven respuestas en formato JSON.
 
-## 🚀 Características principales
+Capa de Servicios (Lógica de negocio)
+Contiene las reglas del sistema, coordinando acciones entre controladores y repositorios. Evita duplicar lógica y asegura consistencia de datos.
 
-✔ Gestión de Artesanos (CRUD)
-Crear artesanos
-Obtener todos los artesanos
-Obtener artesano por ID
-Actualizar artesano
-Eliminar artesano
+Capa de Acceso a Datos (Repositorios)
+Utiliza Spring Data JPA para realizar operaciones CRUD en la base de datos sin escribir SQL manual.
 
-✔ Gestión de Productos 
+Persistencia (Base de Datos)
+La aplicación puede trabajar con H2 en desarrollo o MySQL en producción. Se manejan entidades como Artesano y Producto con una relación 1 a N.
 
-✔ Seguridad con Spring Security
-Endpoints /api/artesanos/** requieren autenticación
-Usuario por defecto:
-```
-user: admin
-password: admin123
-```
-## 📂 Estructura del Proyecto
-```
-src/
- ├── main/
- │   ├── java/com.artesanos.artesanos/
- │   │    ├── controller/
- │   │    ├── service/
- │   │    ├── repository/
- │   │    ├── model/
- │   │    └── config/
- │   └── resources/
- │        ├── application.properties
- │        └── data.sql (opcional)
- └── test/
-      ├── unit/
-      └── integration/
-```
+Seguridad
+Implementada mediante Spring Security con Basic Authentication.
+• /api/productos/** → público
+• /api/artesanos/** → requiere autenticación
+La autenticación maneja usuarios en memoria con contraseñas encriptadas.
 
-## Diagrama de Arquitectura 
+Esta estructura permite modularidad, facilidad de mantenimiento, pruebas unitarias aisladas y escalabilidad futura.
+
+### Diagrama de Arquitectura 
 ```
                     ┌─────────────────────────────┐
                     │          CLIENTE            │
@@ -99,6 +77,43 @@ src/
                     │ Filtra accesos a /artesanos │
                     └─────────────────────────────┘
 
+```
+
+
+## 🚀 Características principales
+
+✔ Gestión de Artesanos (CRUD)
+Crear artesanos
+Obtener todos los artesanos
+Obtener artesano por ID
+Actualizar artesano
+Eliminar artesano
+
+✔ Gestión de Productos 
+
+✔ Seguridad con Spring Security
+Endpoints /api/artesanos/** requieren autenticación
+Usuario por defecto:
+```
+user: admin
+password: admin123
+```
+## 📂 Estructura del Proyecto
+```
+src/
+ ├── main/
+ │   ├── java/com.artesanos.artesanos/
+ │   │    ├── controller/
+ │   │    ├── service/
+ │   │    ├── repository/
+ │   │    ├── model/
+ │   │    └── config/
+ │   └── resources/
+ │        ├── application.properties
+ │        └── data.sql (opcional)
+ └── test/
+      ├── unit/
+      └── integration/
 ```
 
 ## 🔧 Instalación y Ejecución
