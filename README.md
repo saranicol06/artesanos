@@ -315,6 +315,7 @@ docker exec -it postgres-artesanos psql -U artesano -d artesanos_db
 ```
 ## Diagrama ER / Modelo de datos
 
+```
 Artesano
  ├── id (PK)
  ├── nombre
@@ -327,7 +328,7 @@ Producto
  ├── nombre
  ├── precio
  └── artesano_id (FK -> Artesano.id)
-
+```
 
 
 ## 🧩 Patrones de Diseño Aplicados
