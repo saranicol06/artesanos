@@ -270,28 +270,101 @@ Se puede ejecutar con:
 newman run Artesanos.postman_collection.json --reporters cli,html
 ```
 
-🔹 Pruebas de carga con JMeter
+🔹 Pruebas con JMeter – Evidencias y Análisis
 
-GET /api/artesanos
+Durante las pruebas de rendimiento realizadas con JMeter, se configuró un Thread Group con una sola iteración inicial para validar el correcto funcionamiento de los endpoints del módulo Artesanos.
+
+Resultados con IDs válidos
+Cuando se ejecutan solicitudes usando IDs existentes en la base de datos, todos los endpoints responden exitosamente.
+Esto demuestra que la API responde correctamente a operaciones CRUD bajo condiciones normales.
+<img width="294" height="143" alt="Captura de pantalla 2025-11-24 121853" src="https://github.com/user-attachments/assets/3920cd94-bc2a-43fd-9774-7f4bae8122db" />
+
+Resultados con IDs inexistentes (errores esperados)
+Cuando se intenta realizar operaciones como:
 GET /api/artesanos/{id}
-POST /api/artesanos
 DELETE /api/artesanos/{id}
+…usando un ID que no existe, JMeter muestra las solicitudes en rojo.
+Esto no indica un fallo del sistema, sino un comportamiento esperado:
+GET retorna 404 Not Found
+DELETE también retorna 404 cuando intenta eliminar un recurso inexistente
+Este comportamiento demuestra que la API maneja correctamente errores de negocio y responde con los códigos HTTP apropiados.
+<img width="2285" height="1425" alt="Captura de pantalla 2025-11-24 121618" src="https://github.com/user-attachments/assets/db7051d7-7215-4b65-8ba8-60e6046f69e1" />
 
 Incluye métricas de:
 Tiempo de respuesta
 Throughput
 Errores
 
-## 📊 Tecnologías usadas
+## Configuración de Base de Datos (Docker + PostgreSQL)
 
-Java 17
-Spring Boot
-Spring Security
-Maven
-Postman / JMeter
-H2 / MySQL
+Para el backend se utilizó una base de datos PostgreSQL levantada en un contenedor Docker. Esto permitió trabajar en un entorno limpio, reproducible y estable durante las pruebas.
+
+Contenedor utilizado:
+```
+docker run --name postgres-artesanos \
+  -e POSTGRES_USER=artesano \
+  -e POSTGRES_PASSWORD=12345 \
+  -e POSTGRES_DB=artesanos_db \
+  -p 5432:5432 \
+  -d postgres:latest
+```
+
+Acceso a la BD:
+```
+docker exec -it postgres-artesanos psql -U artesano -d artesanos_db
+```
+## Diagrama ER / Modelo de datos
+
+Artesano
+ ├── id (PK)
+ ├── nombre
+ ├── ubicacion
+ ├── tipoArtesania
+ └── descripcion
+
+Producto
+ ├── id (PK)
+ ├── nombre
+ ├── precio
+ └── artesano_id (FK -> Artesano.id)
 
 
+
+## 🧩 Patrones de Diseño Aplicados
+
+MVC: separación clara entre controladores, servicios y repositorios.
+
+Repository Pattern: acceso a datos abstraído mediante Spring Data JPA.
+
+Inversión de Control / Dependency Injection: Spring gestiona dependencias automáticamente, reduciendo el acoplamiento y facilitando pruebas.
+
+## 🧱 Decisiones de Arquitectura
+
+Spring Boot: rápido, modular y perfecto para APIs REST.
+
+PostgreSQL: base de datos robusta y confiable para datos estructurados.
+
+Docker: permite correr PostgreSQL en un entorno limpio y reproducible.
+
+Basic Auth: solución de seguridad simple y suficiente para proteger los endpoints sensibles.
+
+📝 Conclusiones
+
+- La arquitectura en capas (MVC + Servicios + Repositorios) permitió construir un sistema ordenado, modular y fácil de mantener.
+
+- El uso de patrones como Repository, Inversión de Control y DI fortaleció la estructura y la escalabilidad del proyecto.
+
+- PostgreSQL en Docker brindó un entorno estable, reproducible y aislado para las pruebas.
+
+- Las pruebas funcionales confirmaron el correcto comportamiento del CRUD en escenarios reales.
+
+- JMeter evidenció que los endpoints funcionan bien bajo carga y que la API responde correctamente ante errores (404, etc.).
+
+- La seguridad con Basic Auth cubrió los requisitos mínimos sin agregar complejidad innecesaria.
+
+- El proyecto queda como una base sólida para futuras ampliaciones: frontend, roles, autenticación JWT, panel administrativo, etc.
+
+  
 👥 Autores
 Sara Nicol Zuluaga 
 Axel Daniel Bedoya
