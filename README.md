@@ -147,24 +147,108 @@ password: admin123
 ## 🛣 Endpoints principales
 
 🔹 Artesanos
+
+GET /api/artesanos
+Descripción: Obtiene la lista completa de artesanos.
+Ejemplo de Response (200):
 ```
-Método	Endpoint	Descripción
-GET	/api/artesanos	Obtener todos
-GET	/api/artesanos/{id}	Obtener por ID
-POST	/api/artesanos	Crear artesano
-PUT	/api/artesanos/{id}	Actualizar artesano
-DELETE	/api/artesanos/{id}	Eliminar artesano
+[
+  {
+    "id": 1,
+    "nombre": "Juan Pérez",
+    "ubicacion": "Bogotá",
+    "tipoArtesania": "Cerámica",
+    "descripcion": "Artesano de cerámica tradicional"
+  }
+]
 ```
+Códigos de estado:
+200 OK — Lista obtenida correctamente
+401 Unauthorized — Falta autenticación
+500 Internal Server Error
+
+GET /api/artesanos/{id}
+Descripción: Obtiene un artesano por su ID.
+Ejemplo de Response (200):
+```
+{
+  "id": 1,
+  "nombre": "Juan Pérez",
+  "ubicacion": "Bogotá",
+  "tipoArtesania": "Cerámica",
+  "descripcion": "Artesano de cerámica tradicional"
+}
+```
+POST /api/artesanos
+Descripción: Crea un nuevo artesano.
+Body requerido:
+```
+{
+  "nombre": "María Rojas",
+  "ubicacion": "Medellín",
+  "tipoArtesania": "Tejidos",
+  "descripcion": "Tejedora de artesanías ancestrales"
+}
+```
+Response (200/201):
+```
+{
+  "id": 5,
+  "nombre": "María Rojas",
+  "ubicacion": "Medellín",
+  "tipoArtesania": "Tejidos",
+  "descripcion": "Tejedora de artesanías ancestrales"
+}
+```
+Códigos de estado:
+201 Created
+400 Bad Request — Body inválido
+401 Unauthorized
+
+
+DELETE /api/artesanos/{id}
+Descripción: Elimina un artesano y automáticamente sus productos asociados (cascade delete).
+Response (200):
+```
+"Artesano eliminado correctamente"
+```
+Códigos de estado:
+200 OK
+404 Not Found
+401 Unauthorized
 
 🔹 Productos
+
+GET /api/productos
+Descripción: Obtiene todos los productos disponibles.
+Response (200):
 ```
-Método	Endpoint	Descripción
-GET	/api/productos	Obtener todos
-GET	/api/productos/{id}	Obtener por ID
-POST	/api/productos	Crear artesano
-PUT	/api/productos/{id}	Actualizar artesano
-DELETE	/api/productos/{id}	Eliminar artesano
+[
+  {
+    "id": 1,
+    "nombre": "Jarrón artesanal",
+    "precio": 50000,
+    "artesanoId": 1
+  }
+]
 ```
+
+GET /api/productos/{id}
+Descripción: Obtiene un producto específico.
+
+POST /api/productos
+Body ejemplo:
+```
+{
+  "nombre": "Sombrero vueltiao",
+  "precio": 120000,
+  "artesanoId": 3
+}
+```
+
+DELETE /api/productos/{id}
+Descripción: Elimina un producto por ID.
+
 
 ## 🧪 Pruebas
 
