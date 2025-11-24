@@ -166,6 +166,8 @@ Códigos de estado:
 200 OK — Lista obtenida correctamente
 401 Unauthorized — Falta autenticación
 500 Internal Server Error
+<img width="1980" height="1449" alt="image" src="https://github.com/user-attachments/assets/11fe0e4c-f3d8-433a-9da8-dfc81fe4971f" />
+
 
 GET /api/artesanos/{id}
 Descripción: Obtiene un artesano por su ID.
@@ -204,6 +206,8 @@ Códigos de estado:
 201 Created
 400 Bad Request — Body inválido
 401 Unauthorized
+<img width="2017" height="1464" alt="image" src="https://github.com/user-attachments/assets/904b4912-7310-49a6-9b2a-b7e493a3e2f3" />
+
 
 
 DELETE /api/artesanos/{id}
@@ -216,6 +220,7 @@ Códigos de estado:
 200 OK
 404 Not Found
 401 Unauthorized
+<img width="1936" height="1043" alt="image" src="https://github.com/user-attachments/assets/7d32164b-3829-40ea-9304-0d8dd2c5a779" />
 
 🔹 Productos
 
@@ -245,9 +250,11 @@ Body ejemplo:
   "artesanoId": 3
 }
 ```
+<img width="1986" height="1491" alt="image" src="https://github.com/user-attachments/assets/6beb497c-1a9e-40e6-ad6a-10ce0bba088c" />
 
 DELETE /api/productos/{id}
 Descripción: Elimina un producto por ID.
+<img width="2052" height="1026" alt="image" src="https://github.com/user-attachments/assets/cfb224e4-832f-4a20-a325-0fd5c828dbd5" />
 
 
 ## 🧪 Pruebas
