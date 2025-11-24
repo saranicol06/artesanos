@@ -1,0 +1,5 @@
+com\artesanos\artesanos\service\ArtesanoServiceTest.class
+com\artesanos\artesanos\controller\ProductoControllerTest.class
+com\artesanos\artesanos\controller\ArtesanoControllerTest.class
+com\artesanos\artesanos\service\ProductoServiceTest.class
+com\artesanos\artesanos\ArtesanosApplicationTests.class

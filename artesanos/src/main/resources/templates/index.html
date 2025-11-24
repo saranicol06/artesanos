@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Catálogo Artesanos</title>
+</head>
+<body>
+<h1>Catálogo de Productos</h1>
+<table>
+<tr><th>Nombre</th><th>Descripción</th><th>Precio</th></tr>
+<tr th:each="p : ${productos}">
+<td th:text="${p.nombre}"></td>
+<td th:text="${p.descripcion}"></td>
+<td th:text="${p.precio}"></td>
+</tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,12 @@
+com\artesanos\artesanos\config\SecurityConfig.class
+com\artesanos\artesanos\service\ProductoService.class
+com\artesanos\artesanos\model\Artesano.class
+com\artesanos\artesanos\service\ArtesanoService.class
+com\artesanos\artesanos\config\DataLoader.class
+com\artesanos\artesanos\ArtesanosApplication.class
+com\artesanos\artesanos\model\Producto.class
+com\artesanos\artesanos\repository\ProductoRepository.class
+com\artesanos\artesanos\controller\ProductoController.class
+com\artesanos\artesanos\controller\ArtesanoController.class
+com\artesanos\artesanos\repository\ArtesanoRepository.class
+com\artesanos\artesanos\controller\WebController.class
