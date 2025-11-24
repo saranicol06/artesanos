@@ -1,6 +1,6 @@
 # 🧵 Artesanos Platform – Gestión de Artesanos y Productos
 
-##📌 Descripción del Proyecto
+## 📌 Descripción del Proyecto
 
 Artesanos Platform es una aplicación web diseñada para apoyar a los artesanos colombianos en la gestión de sus productos, inventario y presencia digital.
 La plataforma proporciona una API REST que permite registrar artesanos, administrar productos y consultar información relevante de forma sencilla.
@@ -18,7 +18,7 @@ Front (opcional): No incluido aún
 Build Tool: Maven
 
 
-##🚀 Características principales
+## 🚀 Características principales
 
 ✔ Gestión de Artesanos (CRUD)
 Crear artesanos
@@ -52,6 +52,53 @@ src/
  └── test/
       ├── unit/
       └── integration/
+```
+
+## Diagrama de Arquitectura 
+```
+                    ┌─────────────────────────────┐
+                    │          CLIENTE            │
+                    │  Navegador / Postman / App  │
+                    └───────────────┬─────────────┘
+                                    │ HTTP/JSON
+                                    ▼
+                    ┌─────────────────────────────┐
+                    │        API REST (Spring)    │
+                    │  Controladores:             │
+                    │   - ArtesanoController      │
+                    │   - ProductoController      │
+                    └───────────────┬─────────────┘
+                                    │ Llama métodos del servicio
+                                    ▼
+                    ┌─────────────────────────────┐
+                    │          SERVICIOS           │
+                    │  ArtesanoService             │
+                    │  ProductoService             │
+                    │  (Reglas de negocio)         │
+                    └───────────────┬─────────────┘
+                                    │ Interacción con repositorio
+                                    ▼
+                    ┌─────────────────────────────┐
+                    │          REPOSITORIOS       │
+                    │  ArtesanoRepository         │
+                    │  ProductoRepository         │
+                    │  (Spring Data JPA)          │
+                    └───────────────┬─────────────┘
+                                    │ ORM (JPA/Hibernate)
+                                    ▼
+                    ┌─────────────────────────────┐
+                    │         BASE DE DATOS        │
+                    │     H2 / MySQL (según uso)   │
+                    └──────────────────────────────┘
+
+
+                    ┌─────────────────────────────┐
+                    │      Seguridad (Spring)     │
+                    │    - Basic Auth             │
+                    │    - InMemoryUserDetails    │
+                    │ Filtra accesos a /artesanos │
+                    └─────────────────────────────┘
+
 ```
 
 ## 🔧 Instalación y Ejecución
