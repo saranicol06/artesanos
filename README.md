@@ -290,10 +290,21 @@ DELETE también retorna 404 cuando intenta eliminar un recurso inexistente
 Este comportamiento demuestra que la API maneja correctamente errores de negocio y responde con los códigos HTTP apropiados.
 <img width="2285" height="1425" alt="Captura de pantalla 2025-11-24 121618" src="https://github.com/user-attachments/assets/db7051d7-7215-4b65-8ba8-60e6046f69e1" />
 
+- Configuración: 10 usuarios simultáneos, ramp-up 5 segundos, 1 loop.
+- Resultados principales:
+Tiempo promedio: 78 ms y 74 ms
+Máximo: 83 ms
+No se registraron errores significativos
+Los pocos errores registrados se deben a IDs inexistentes de pruebas anteriores.
+![Imagen de WhatsApp 2025-11-25 a las 11 05 20_7f5ece13](https://github.com/user-attachments/assets/65973325-55ba-4c89-93a3-b3527965f01c)
+![Imagen de WhatsApp 2025-11-25 a las 11 07 48_08922ac1](https://github.com/user-attachments/assets/f3b3a815-e0e2-41a6-8213-0b5e17b9d477)
+
 Incluye métricas de:
 Tiempo de respuesta
 Throughput
 Errores
+
+
 
 ## Configuración de Base de Datos (Docker + PostgreSQL)
 
@@ -348,23 +359,6 @@ PostgreSQL: base de datos robusta y confiable para datos estructurados.
 Docker: permite correr PostgreSQL en un entorno limpio y reproducible.
 
 Basic Auth: solución de seguridad simple y suficiente para proteger los endpoints sensibles.
-
-📝 Conclusiones
-
-- La arquitectura en capas (MVC + Servicios + Repositorios) permitió construir un sistema ordenado, modular y fácil de mantener.
-
-- El uso de patrones como Repository, Inversión de Control y DI fortaleció la estructura y la escalabilidad del proyecto.
-
-- PostgreSQL en Docker brindó un entorno estable, reproducible y aislado para las pruebas.
-
-- Las pruebas funcionales confirmaron el correcto comportamiento del CRUD en escenarios reales.
-
-- JMeter evidenció que los endpoints funcionan bien bajo carga y que la API responde correctamente ante errores (404, etc.).
-
-- La seguridad con Basic Auth cubrió los requisitos mínimos sin agregar complejidad innecesaria.
-
-- El proyecto queda como una base sólida para futuras ampliaciones: frontend, roles, autenticación JWT, panel administrativo, etc.
-
 
 ## Análisis de Código Estático (SAST)
 - Herramienta: SonarQube local con Docker
@@ -422,6 +416,49 @@ Explicación: “Se intentó escanear la imagen Docker, pero aún no se ha cread
 Variables de entorno en Windows con setx: cerrar y abrir CMD para que sean efectivas.
 Comando SonarQube requiere token válido (SONAR_TOKEN_LOCAL).
 Gitleaks requiere que el proyecto sea un repositorio Git (si no, solo escanea archivos sin commits).
+
+## Pruebas API con Postman y Newman
+- Se realizaron pruebas de los endpoints de productos y artesanos usando Postman y ejecutando los tests con Newman.
+- Observación: Los errores 404 ocurren porque algunos IDs probados ya no existen, lo cual es esperado y correcto.
+![Imagen de WhatsApp 2025-11-25 a las 10 57 29_b389af83](https://github.com/user-attachments/assets/7d227728-8088-4858-a0ee-2b2080aca70e)
+![Imagen de WhatsApp 2025-11-25 a las 10 58 02_c9ed7d91](https://github.com/user-attachments/assets/bf81e569-3cff-4248-b945-69a77c8dfcde)
+
+## Cobertura de Código (Jacoco)
+- Reporte generado:
+```
+file:///C:/Users/saran/Downloads/artesanos/target/site/jacoco/index.html
+```
+- Cobertura total: 75%
+- Permite ver cobertura por clases y métodos.
+<img width="1432" height="438" alt="image" src="https://github.com/user-attachments/assets/97a62a9b-f40f-4b72-aa13-152187928b1d" />
+
+## 🏁 Conclusiones
+
+1. Arquitectura modular y escalable:
+La aplicación está diseñada con capas claramente definidas (controladores, servicios, repositorios), lo que facilita mantenimiento, pruebas y escalabilidad futura.
+
+2. Seguridad implementada:
+Todos los endpoints sensibles requieren autenticación básica, y la aplicación maneja usuarios con contraseñas encriptadas, garantizando un nivel mínimo de protección.
+
+3. Pruebas completas:
+- Unitarias con JUnit y Mockito, asegurando que la lógica de negocio funcione correctamente.
+- Integración con Postman y Newman para validar los endpoints; los errores 404 son esperados por IDs inexistentes, demostrando manejo correcto de errores.
+- Pruebas de carga con JMeter muestran tiempos de respuesta bajos y consistentes bajo 10 usuarios simultáneos, evidenciando buen desempeño.
+
+4. DevSecOps mínimo implementado:
+- SAST: SonarQube confirmó calidad de código y cobertura adecuada.
+- Dependency scanning: OWASP Dependency-Check detectó vulnerabilidades conocidas en librerías externas.
+- Secrets scanning: Gitleaks identificó un secret en los tests, evitando exposición en producción.
+- Container scanning: Trivy mostró la necesidad de generar la imagen Docker antes del escaneo, evidenciando buenas prácticas de CI/CD.
+
+5. Cobertura de código confiable:
+Jacoco reportó aproximadamente 75% de cobertura total, permitiendo identificar áreas críticas para pruebas adicionales.
+
+6. Reproducibilidad y control de datos:
+Uso de PostgreSQL en contenedor Docker asegura entornos consistentes y facilita la instalación en cualquier equipo sin conflictos de configuración.
+
+7. Aprendizaje y buenas prácticas:
+El proyecto permitió aplicar patrones de diseño (MVC, Repository, DI), integración de herramientas DevSecOps, pruebas de rendimiento y cobertura de código, consolidando conceptos de diseño, seguridad y calidad en software académico.
 
 👥 Autores
 Sara Nicol Zuluaga 
