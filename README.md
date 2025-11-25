@@ -365,7 +365,64 @@ Basic Auth: solución de seguridad simple y suficiente para proteger los endpoin
 
 - El proyecto queda como una base sólida para futuras ampliaciones: frontend, roles, autenticación JWT, panel administrativo, etc.
 
-  
+
+## Análisis de Código Estático (SAST)
+- Herramienta: SonarQube local con Docker
+- Comando usado:
+```
+mvn -B sonar:sonar -Dsonar.token=%SONAR_TOKEN_LOCAL% -Dsonar.host.url=http://localhost:9000
+```
+Resultado principal:
+Quality Gate: Passed
+Cobertura: 73.6%
+Seguridad: 1 problema (Security rating E)
+Mantenibilidad: A
+Confiabilidad: A
+<img width="1415" height="1015" alt="image" src="https://github.com/user-attachments/assets/f7aa85b4-df39-49d0-a58f-eb67b3b87fb5" />
+
+## Escaneo de Dependencias
+- Herramienta: OWASP Dependency-Check (plugin Maven)
+- Comando usado:
+```
+mvn org.owasp:dependency-check-maven:check
+```
+- Resultado: Reporte HTML generado en:
+```
+target/dependency-check-report.html
+```
+- Aquí se listan vulnerabilidades conocidas en dependencias externas.
+
+## Escaneo de Secrets
+- Herramienta: Gitleaks
+- Comando usado:
+```
+gitleaks detect --report-format json --report-path gitleaks-report.json
+```
+Resultado:
+Se encontró un secret en:
+```
+target/surefire-reports/TEST-com.artesanos.artesanos.controller.ProductoControllerTest.xml
+```
+- Tipo: API Key genérica
+  Se detectó un secret potencialmente sensible en los tests, no en el código de producción.
+<img width="2740" height="1630" alt="image" src="https://github.com/user-attachments/assets/a7fd3c6c-52e2-46dc-bdf8-0047fd606b98" />
+
+## Escaneo de Contenedores (Container Scan)
+- Herramienta: Trivy
+- Comando usado:
+```
+trivy image artesanos-api --format json --output trivy-report.json
+```
+- Resultado:
+Si no hay Dockerfile, indicar que no se pudo escanear la imagen.
+Explicación: “Se intentó escanear la imagen Docker, pero aún no se ha creado el Dockerfile ni la imagen ‘artesanos-api’.”
+<img width="2219" height="1643" alt="image" src="https://github.com/user-attachments/assets/9caec4eb-642e-435d-bc4b-50ee7e3b54ac" />
+
+## Tips y Observaciones
+Variables de entorno en Windows con setx: cerrar y abrir CMD para que sean efectivas.
+Comando SonarQube requiere token válido (SONAR_TOKEN_LOCAL).
+Gitleaks requiere que el proyecto sea un repositorio Git (si no, solo escanea archivos sin commits).
+
 👥 Autores
 Sara Nicol Zuluaga 
 Axel Daniel Bedoya
